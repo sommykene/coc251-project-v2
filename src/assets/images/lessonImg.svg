@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="317.185" height="286.017" viewBox="0 0 317.185 286.017">
+  <defs>
+    <clipPath id="clip-path">
+      <path id="Path_1316" data-name="Path 1316" d="M0,0S126.887-2.919,206.137,68.581,317,286,317,286H0Z" transform="translate(4724 6517)" fill="#4e9b95"/>
+    </clipPath>
+  </defs>
+  <g id="Group_1690" data-name="Group 1690" transform="translate(-4724 -6516.983)">
+    <path id="Path_1315" data-name="Path 1315" d="M5.955,0c262.079,0,311.23,285.378,311.23,285.378H5.955c-3.289,0-5.955-3.463-5.955-7.734V7.734C0,3.463,2.666,0,5.955,0Z" transform="translate(4724 6517.622)" fill="#4e9b95"/>
+    <path id="Path_1314" data-name="Path 1314" d="M0,0S126.887-2.919,206.137,68.581,317,286,317,286H0Z" transform="translate(4724 6517)" fill="#4e9b95"/>
+    <g id="Mask_Group_7" data-name="Mask Group 7" clip-path="url(#clip-path)">
+      <g id="Group_1689" data-name="Group 1689" transform="translate(4710.886 6552.424)">
+        <g id="Group_1685" data-name="Group 1685" transform="translate(64.964 0)">
+          <rect id="Rectangle_7724" data-name="Rectangle 7724" width="122.194" height="122.194" rx="10" transform="translate(0 0)" fill="#fff" stroke="#ffd62f" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+          <text id="A" transform="translate(39.443 79.881)" fill="#4e9b95" font-size="66" font-family="BalsamiqSans-Regular, Balsamiq Sans"><tspan x="0" y="0">A</tspan></text>
+        </g>
+        <g id="Group_1686" data-name="Group 1686" transform="translate(0 129.928)">
+          <rect id="Rectangle_7725" data-name="Rectangle 7725" width="122.194" height="120.648" rx="10" transform="translate(0 0)" fill="#fff" stroke="#d12e2e" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+          <text id="B" transform="translate(37.896 79.881)" fill="#4e9b95" font-size="66" font-family="BalsamiqSans-Regular, Balsamiq Sans"><tspan x="0" y="0">B</tspan></text>
+        </g>
+        <g id="Group_1687" data-name="Group 1687" transform="translate(138.435 129.928)">
+          <rect id="Rectangle_7726" data-name="Rectangle 7726" width="122.194" height="120.648" rx="10" transform="translate(0 0)" fill="#fff" stroke="#69a6e5" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+          <text id="Ch" transform="translate(19.335 80.881)" fill="#4e9b95" font-size="67" font-family="BalsamiqSans-Regular, Balsamiq Sans"><tspan x="0" y="0">Ch</tspan></text>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
