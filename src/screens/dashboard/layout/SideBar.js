@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
@@ -31,6 +31,10 @@ import profile from "@assets/images/profile.png";
 import { Avatar } from "@mui/material";
 import { Language, Settings, Translate } from "@mui/icons-material";
 import { Link } from "react-router-dom";
+import { useAuth } from "@routes/AuthProvider";
+import { CapitalizeFirstLetter } from "@services/utils";
+import { SignOut } from "@services/auth";
+import { useNavigate } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -79,7 +83,11 @@ const Drawer = styled(MuiDrawer, {
 
 export default function Sidebar() {
   const theme = useTheme();
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = useState(true);
+  const { currentUser } = useAuth();
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const handleDrawerToggle = () => {
     setOpen(!open);
@@ -93,6 +101,20 @@ export default function Sidebar() {
     setOpen(false);
   };
 
+  const handleLogout = async (navigate) => {
+    setError("");
+    setLoading(true);
+    await SignOut()
+      .then(() => {
+        navigate("/login");
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("Failed to Logout");
+      });
+
+    setLoading(false);
+  };
   return (
     <Drawer variant="permanent" open={open} size="">
       <Box
@@ -116,9 +138,9 @@ export default function Sidebar() {
             <img src={profile} alt="profile picture" />
           </Box>
           <Box sx={{ m: "auto", textAlign: "center", my: 3 }}>
-            <span>Som</span>
+            <span>{CapitalizeFirstLetter(currentUser.firstname)}</span>
             <br />
-            <span sx={{ display: "block" }}>@sommykene</span>
+            <span sx={{ display: "block" }}>@{currentUser.username}</span>
             <br />
             <span sx={{ display: "block" }}>Go to Profile</span>
           </Box>
@@ -133,7 +155,7 @@ export default function Sidebar() {
               fontWeight: "bold",
             }}
           >
-            1732 XP
+            {currentUser.xpPoints} XP
           </Box>
         </>
       )}
@@ -203,7 +225,11 @@ export default function Sidebar() {
               </ListItemIcon>
               <ListItemText primary="Settings" />
             </ListItem>
-            <ListItem button key="Logout">
+            <ListItem
+              button
+              key="Logout"
+              onClick={() => handleLogout(navigate)}
+            >
               <ListItemIcon>
                 <Logout />
               </ListItemIcon>

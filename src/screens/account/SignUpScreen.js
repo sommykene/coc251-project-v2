@@ -1,40 +1,56 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 
 import logo from "@assets/images/logo.svg";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
+import { CreateUser } from "@services/auth";
+
+const INITIAL_USER = {
+  username: "",
+  password: "",
+  confirmpassword: "",
+  email: "",
+  firstname: "",
+  xp_points: 0,
+};
 
 export default function SignUpScreen() {
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [userForm, setUserForm] = useState(INITIAL_USER);
+  const navigate = useNavigate();
 
-  const handleSubmit = (event) => {
+  const handleChange = (event) => {
+    setUserForm({ ...userForm, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async (event, navigate) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
 
-    // if (data.get("password") !== data.get("confirmpassword")) {
-    //   setError("Passwords Don't Match");
-    //   return;
-    // }
-    // const userState = {
-    //   username: data.get("username"),
-    //   password: data.get("password"),
-    //   email: data.get("email"),
-    //   name: data.get("name"),
-    //   xp_points: 0,
-    // };
+    if (userForm.password !== userForm.confirmpassword) {
+      setError("Passwords Don't Match");
+      return;
+    }
 
-    // SignUp(userState);
+    setError("");
+    setLoading(true);
+    await CreateUser(userForm)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("Failed to Sign Up");
+      });
+
+    setLoading(false);
   };
 
   return (
@@ -94,17 +110,19 @@ export default function SignUpScreen() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e, navigate)}
             sx={{ mt: 1 }}
           >
             <TextField
               id="name"
-              name="name"
+              name="firstname"
               label="First Name"
               margin="normal"
               autoComplete="given-name"
               required
               fullWidth
+              value={userForm.firstname}
+              onChange={(e) => handleChange(e)}
             />
             <TextField
               id="username"
@@ -114,6 +132,8 @@ export default function SignUpScreen() {
               autoComplete="username"
               required
               fullWidth
+              value={userForm.username}
+              onChange={(e) => handleChange(e)}
             />
             <TextField
               id="email"
@@ -124,6 +144,8 @@ export default function SignUpScreen() {
               margin="normal"
               required
               fullWidth
+              value={userForm.email}
+              onChange={(e) => handleChange(e)}
             />
             <TextField
               id="password"
@@ -133,6 +155,8 @@ export default function SignUpScreen() {
               margin="normal"
               required
               fullWidth
+              value={userForm.password}
+              onChange={(e) => handleChange(e)}
             />
             <TextField
               id="confirmpassword"
@@ -142,6 +166,8 @@ export default function SignUpScreen() {
               margin="normal"
               required
               fullWidth
+              value={userForm.confirmpassword}
+              onChange={(e) => handleChange(e)}
             />
             <Button
               type="submit"

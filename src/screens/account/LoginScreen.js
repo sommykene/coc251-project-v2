@@ -1,5 +1,4 @@
-import * as React from "react";
-import Avatar from "@mui/material/Avatar";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -8,21 +7,42 @@ import Checkbox from "@mui/material/Checkbox";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 
 import logo from "@assets/images/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { SignIn } from "@services/auth";
+
+const INITIAL_USER = {
+  email: "",
+  password: "",
+};
 
 export default function LoginScreen() {
-  const handleSubmit = (event) => {
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [userForm, setUserForm] = useState(INITIAL_USER);
+  const navigate = useNavigate();
+
+  const handleChange = (event) => {
+    setUserForm({ ...userForm, [event.target.name]: event.target.value });
+  };
+
+  const handleSubmit = async (event, navigate) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+
+    setError("");
+    setLoading(true);
+    await SignIn(userForm)
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.log(err);
+        setError("Failed to Login");
+      });
+
+    setLoading(false);
   };
 
   return (
@@ -78,7 +98,7 @@ export default function LoginScreen() {
           <Box
             component="form"
             noValidate
-            onSubmit={handleSubmit}
+            onSubmit={(e) => handleSubmit(e, navigate)}
             sx={{ mt: 1 }}
           >
             <TextField
@@ -89,6 +109,9 @@ export default function LoginScreen() {
               label="Email Address"
               name="email"
               autoComplete="email"
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
             <TextField
               margin="normal"
@@ -99,6 +122,9 @@ export default function LoginScreen() {
               type="password"
               id="password"
               autoComplete="current-password"
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}
